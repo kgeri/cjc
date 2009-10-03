@@ -70,6 +70,7 @@ public class TypeSpecificManager<T> {
 	/** The postfix for finding the managed types, or null if not specified. */
 	private String postfix;
 
+	private final String packageName = getClass().getPackage().getName();
 
 	/**
 	 * Locates the managed instance for the specified type.
@@ -93,20 +94,39 @@ public class TypeSpecificManager<T> {
 
 		T instance = typeMap.get(type);
 
-		if (instance == null) {
-			// Now trying naming convention
+		// Now trying naming convention
+		if (postfix != null) {
 
-			try {
-				String managedTypeName = type.getName() + postfix;
-				instance = (T) Class.forName(managedTypeName).newInstance();
-			} catch (Exception e) {
-				// Silently ignoring errors
+			// In the same package as the manager
+			if (instance == null) {
+				try {
+					String managedTypeName = packageName + '.' + type.getSimpleName() + postfix;
+					instance = (T) Class.forName(managedTypeName).newInstance();
+
+					if (scope == SCOPE_SINGLETON) {
+						// We may cache the instance
+						typeMap.put(type, instance);
+					}
+				} catch (Exception e) {
+					// Silently ignoring errors
+					e.printStackTrace();
+				}
 			}
-		}
 
-		if (instance == null) {
-			// The managed instance was not found
-			return null;
+			// In the same package as the queried type
+			if (instance == null) {
+				try {
+					String managedTypeName = type.getName() + postfix;
+					instance = (T) Class.forName(managedTypeName).newInstance();
+
+					if (scope == SCOPE_SINGLETON) {
+						// We may cache the instance
+						typeMap.put(type, instance);
+					}
+				} catch (Exception e) {
+					// Silently ignoring errors
+				}
+			}
 		}
 
 		if (scope == SCOPE_SINGLETON) {
