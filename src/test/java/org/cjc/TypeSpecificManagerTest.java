@@ -7,10 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.cjc.tsm.Renderer;
 import org.cjc.tsm.RendererManager;
-import org.cjc.tsm.Test2Renderer;
-import org.cjc.tsm.type.Test1;
-import org.cjc.tsm.type.Test1Renderer;
-import org.cjc.tsm.type.Test2;
+import org.cjc.tsm.Type2Renderer;
+import org.cjc.tsm.type.Type1;
+import org.cjc.tsm.type.Type1Renderer;
+import org.cjc.tsm.type.Type2;
 import org.junit.Test;
 
 /**
@@ -26,12 +26,12 @@ public class TypeSpecificManagerTest {
 	@Test
 	public void testFindRegistered() {
 		RendererManager m = new RendererManager();
-		m.register(Test1.class, new Test1Renderer());
+		m.register(Type1.class, new Type1Renderer());
 
-		Renderer r = m.find(Test1.class);
+		Renderer r = m.find(Type1.class);
 
 		assertNotNull(r);
-		assertTrue(r instanceof Test1Renderer);
+		assertTrue(r instanceof Type1Renderer);
 	}
 
 	/**
@@ -40,16 +40,16 @@ public class TypeSpecificManagerTest {
 	@Test
 	public void testFindRegisteredPrototype() {
 		RendererManager m = new RendererManager();
-		m.register(Test1.class, new Test1Renderer());
+		m.register(Type1.class, new Type1Renderer());
 		m.setScope(RendererManager.SCOPE_PROTOTYPE);
 
-		Renderer r1 = m.find(Test1.class);
-		Renderer r2 = m.find(Test1.class);
+		Renderer r1 = m.find(Type1.class);
+		Renderer r2 = m.find(Type1.class);
 
 		assertNotNull(r1);
-		assertTrue(r1 instanceof Test1Renderer);
+		assertTrue(r1 instanceof Type1Renderer);
 		assertNotNull(r2);
-		assertTrue(r2 instanceof Test1Renderer);
+		assertTrue(r2 instanceof Type1Renderer);
 		assertNotSame(r1, r2);
 	}
 
@@ -61,10 +61,10 @@ public class TypeSpecificManagerTest {
 		RendererManager m = new RendererManager();
 		m.setConventionalPostfix("Renderer");
 		
-		Renderer r = m.find(Test1.class);
+		Renderer r = m.find(Type1.class);
 
 		assertNotNull(r);
-		assertTrue(r instanceof Test1Renderer);
+		assertTrue(r instanceof Type1Renderer);
 	}
 
 	/**
@@ -75,10 +75,10 @@ public class TypeSpecificManagerTest {
 		RendererManager m = new RendererManager();
 		m.setConventionalPostfix("Renderer");
 
-		Renderer r = m.find(Test2.class);
+		Renderer r = m.find(Type2.class);
 
 		assertNotNull(r);
-		assertTrue(r instanceof Test2Renderer);
+		assertTrue(r instanceof Type2Renderer);
 	}
 
 	/**

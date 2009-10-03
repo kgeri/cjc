@@ -1,5 +1,5 @@
 package org.cjc.tsm;
 
 //Test class for TypeSpecificManager unit test
-public class Test2Renderer implements Renderer {
+public class Type2Renderer implements Renderer {
 }
