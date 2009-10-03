@@ -109,7 +109,6 @@ public class TypeSpecificManager<T> {
 					}
 				} catch (Exception e) {
 					// Silently ignoring errors
-					e.printStackTrace();
 				}
 			}
 
